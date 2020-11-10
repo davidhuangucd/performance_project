@@ -22,9 +22,21 @@ pipeline {
    // writeFile file: 'testng-results.xml', text: '{"name":"com.slokam.automation.opencart.testscripts - 55","passedTests":4,"failedTests":0,"skippedTests":0,"blockedTests":0,"totalTests":4,"startTime":"2020-10-27T04:20:30.124Z","finishTime":"2020-10-27T04:20:30.137Z","duration":0.013,"buildNumber":"${buildNumber}","stageName":"Tests","pipelineName":"ScriptedTestPipeline","passingPercent":100,"url":"http://MSJC7FBCA825.local:3000/jenkins/job/ScriptedTestPipeline/${buildNumber}/testReport/com.slokam.automation.opencart.testscripts","branch":"","isMultiBranch":"false"}'
     // bzt "load_test1.yml"
    //}
-   steps {
-    sh 'mvn clean install' 
-    junit '**/target/*.xml' 
+   //steps {
+    //sh 'mvn clean install' 
+    //junit '**/target/*.xml' 
+   //}
+   stages {
+     stage('test') {
+        steps {
+            sh 'mvn clean install'
+        }
+     }
+   }
+   post {
+      always {
+        junit '**/reports/junit/*.xml'
+      }
    }
   }
   stage('Deploy'){
